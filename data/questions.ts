@@ -117,7 +117,7 @@ export const questions: Question[] = [
       "Derecho ciudadano automático a acceder a documentos.",
       "Permiso excepcional concedido por la autoridad administrativa competente para acceder a documentos excluidos de la consulta según la legislación vigente.",
       "Proceso de validación de documentos para su difusión.",
-      "Certificado de acceso a documentos históricos.",
+      "Certificado de acceso a documentos históricos. B-D (11-20)",
     ],
     correctAnswerIndex: 1
   },
@@ -237,7 +237,7 @@ export const questions: Question[] = [
       "Propiedad absoluta de los fondos.",
       "Responsabilidad jurídica que implica control y adecuada conservación de los fondos, cualquiera que sea su titularidad.",
       "Solo custodia si el archivo es propietario.",
-      "Permiso para destruir documentos sin valor.",
+      "Permiso para destruir documentos sin valor. E-H (21-30)",
     ],
     correctAnswerIndex: 1
   },
@@ -262,18 +262,6 @@ export const questions: Question[] = [
       "Fase del tratamiento archivístico destinada a elaborar instrumentos de consulta para facilitar el conocimiento y consulta de los fondos.",
       "Determinar qué documentos eliminar.",
       "Clasificar series por funciones administrativas.",
-    ],
-    correctAnswerIndex: 1
-  },
-  {
-    id: 23,
-    term: "DESGLOSE (1)",
-    question: "En procedimiento administrativo, ¿qué implica?",
-    options: [
-      "Agregar documentos nuevos al expediente.",
-      "Acción de separar dentro de un procedimiento uno o más documentos del expediente al que pertenece.",
-      "Ordenar documentos cronológicamente.",
-      "Eliminar documentos del expediente.",
     ],
     correctAnswerIndex: 1
   },
@@ -357,7 +345,7 @@ export const questions: Question[] = [
       "Solo estudio de tipos documentales.",
       "Fase del tratamiento archivístico que consiste en la investigación y sistematización de las categorías administrativas y archivísticas en que se sustenta la estructura de un fondo.",
       "Ordenación física de series.",
-      "Elaboración de instrumentos de referencia.",
+      "Elaboración de instrumentos de referencia. I-O (31-40)",
     ],
     correctAnswerIndex: 1
   },
@@ -422,30 +410,6 @@ export const questions: Question[] = [
     correctAnswerIndex: 1
   },
   {
-    id: 36,
-    term: "MINUTA (1)",
-    question: "En la Baja Edad Media, ¿qué era?",
-    options: [
-      "Documento definitivo con todas las fórmulas jurídicas.",
-      "Redacción previa al documento definitivo que consigna el texto completo del acto, abreviando u omitiendo las fórmulas jurídicas y de estilo.",
-      "Copia simultánea con media rúbrica.",
-      "Documento con mismo valor que original múltiple.",
-    ],
-    correctAnswerIndex: 1
-  },
-  {
-    id: 37,
-    term: "MINUTA (3)",
-    question: "En las últimas décadas, ¿qué es?",
-    options: [
-      "Borrador sin validación.",
-      "Ejemplar del documento original, idéntico a éste, dotado de los mismos signos de validación y que queda en el archivo del sujeto productor.",
-      "Copia de seguridad.",
-      "Resumen de expediente.",
-    ],
-    correctAnswerIndex: 1
-  },
-  {
     id: 38,
     term: "ORIGINAL",
     question: "¿Qué implica originalidad?",
@@ -477,7 +441,7 @@ export const questions: Question[] = [
       "Tiempo de permanencia en archivo de gestión.",
       "Período de tiempo durante el cual, según la normativa vigente, una documentación no puede ser consultada públicamente.",
       "Plazo para digitalización obligatoria.",
-      "Tiempo para decidir eliminación.",
+      "Tiempo para decidir eliminación. P-V (41-50)",
     ],
     correctAnswerIndex: 1
   },
@@ -583,7 +547,7 @@ export const questions: Question[] = [
     question: "¿A qué está unido?",
     options: [
       "Valor histórico e informativo.",
-      "Aquél que va unido a la finalidad inmediata por la cual el documento se ha producido por la institución de carácter fiscal, judicial, jurídico-administrativo, etc.",
+      "Aquél que va unido a la finalidad inmediata por la cual el documento se ha producido por la institución de carácter fiscal, judicial, jurídico- administrativo, etc.",
       "Valor cultural y patrimonial.",
       "Interés para investigadores.",
     ],
@@ -694,18 +658,6 @@ export const questions: Question[] = [
       "Texto escrito a mano o dactilografiado.",
       "Solo documentos notariales.",
       "Solo documentos electrónicos.",
-    ],
-    correctAnswerIndex: 1
-  },
-  {
-    id: 159,
-    term: "MlCROFILMACIÓN",
-    question: "¿Qué relación tiene con micrografía?",
-    options: [
-      "Es sinónimo (V. Micrografía).",
-      "Es una técnica específica de microficha.",
-      "Es digitalización.",
-      "Es restauración.",
     ],
     correctAnswerIndex: 1
   },
@@ -1246,18 +1198,6 @@ export const questions: Question[] = [
       "Localización de fracciones de serie a eliminar o conservar según plazos de valoración.",
       "Clasificación.",
       "Descripción.",
-    ],
-    correctAnswerIndex: 1
-  },
-  {
-    id: 205,
-    term: "SELLO",
-    question: "En sentido general, ¿qué es?",
-    options: [
-      "Solo matriz metálica.",
-      "Impronta obtenida sobre soporte mediante matriz de autoridad/persona que testimonia voluntad de intervención.",
-      "Solo sello de cera.",
-      "Solo sello digital.",
     ],
     correctAnswerIndex: 1
   },
@@ -1823,7 +1763,7 @@ export const questions: Question[] = [
       "V. Valor Jurídico.",
       "Valor Histórico.",
     ],
-    correctAnswerIndex: 2
+    correctAnswerIndex: 1
   },
   {
     id: 252,
