@@ -268,10 +268,10 @@ const App: React.FC = () => {
                  </div>
                </div>
                
-               <button 
+               <button
                 type="button"
                 onClick={handleRestartClick}
-                className="hidden sm:flex items-center gap-2 px-3 py-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all text-sm font-medium group active:bg-indigo-100"
+                className="flex items-center justify-center p-2 sm:gap-2 sm:px-3 sm:py-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all text-sm font-medium group active:bg-indigo-100"
                 title="Reiniciar examen desde el principio"
                >
                  <RotateCcw size={18} className="group-hover:rotate-180 transition-transform duration-500" />
