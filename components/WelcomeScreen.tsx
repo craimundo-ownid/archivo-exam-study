@@ -16,56 +16,64 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-xl overflow-hidden border border-slate-200">
-        <div className="bg-indigo-600 p-8 text-center">
-          <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-            <BookOpen size={32} className="text-white" />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-paper p-4 relative">
+      {/* Subtle texture */}
+      <div className="fixed inset-0 paper-texture pointer-events-none" />
+
+      <div className="max-w-sm w-full relative z-10">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-terracotta rounded-xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-terracotta/20">
+            <BookOpen size={28} className="text-white" strokeWidth={2} />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Oposiciones Archivo</h1>
-          <p className="text-indigo-100">Test Interactivo & Seguimiento</p>
+          <h1 className="font-display text-3xl text-ink mb-2">Oposiciones Archivo</h1>
+          <p className="text-muted text-sm">Test interactivo de preparación</p>
         </div>
 
-        <div className="p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
-                ¿Cómo te llamas?
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-slate-400" />
+        {/* Form Card */}
+        <div className="bg-white rounded-xl border border-ink/10 overflow-hidden shadow-sm">
+          <div className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label htmlFor="name" className="block text-sm font-semibold text-ink mb-2">
+                  ¿Cómo te llamas?
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <User className="h-4 w-4 text-muted/50" />
+                  </div>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    className="block w-full pl-10 pr-4 py-3 bg-cream/50 border border-ink/10 rounded-lg text-ink placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-terracotta/20 focus:border-terracotta/30 transition-all"
+                    placeholder="Tu nombre"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoFocus
+                  />
                 </div>
-                <input
-                  type="text"
-                  id="name"
-                  required
-                  className="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                  placeholder="Introduce tu nombre"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoFocus
-                />
+                <p className="mt-2 text-xs text-muted">
+                  Guardaremos tu historial de puntuaciones.
+                </p>
               </div>
-              <p className="mt-2 text-xs text-slate-500">
-                Usaremos tu nombre para guardar el historial de tus puntuaciones.
-              </p>
-            </div>
 
-            <button
-              type="submit"
-              disabled={!name.trim()}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            >
-              Comenzar Examen <ArrowRight size={18} />
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={!name.trim()}
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-lg font-semibold text-white bg-terracotta hover:bg-terracotta-light focus:outline-none focus:ring-2 focus:ring-terracotta/30 focus:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all select-none"
+              >
+                Comenzar <ArrowRight size={18} />
+              </button>
+            </form>
+          </div>
         </div>
+
+        {/* Footer */}
+        <p className="mt-8 text-center text-muted/50 text-xs">
+          Archivo y Documentación
+        </p>
       </div>
-      
-      <p className="mt-8 text-center text-slate-400 text-sm">
-        Estudio de Oposiciones &bull; Archivo y Documentación
-      </p>
     </div>
   );
 };

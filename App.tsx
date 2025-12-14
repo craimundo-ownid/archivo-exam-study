@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [userName, setUserName] = useState<string>('');
   const [quizHistory, setQuizHistory] = useState<QuizResult[]>([]);
-  
+
   // Timer State
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -65,7 +65,7 @@ const App: React.FC = () => {
   // Save state to local storage whenever it changes
   useEffect(() => {
     if (!hasLoaded) return;
-    
+
     const state: QuizState = {
       userName,
       currentQuestionIndex,
@@ -140,7 +140,6 @@ const App: React.FC = () => {
   };
 
   const resetState = () => {
-    // Keep userName but reset quiz progress
     setActiveQuestions(allQuestions);
     setAnswers({});
     setCurrentQuestionIndex(0);
@@ -150,7 +149,7 @@ const App: React.FC = () => {
   };
 
   const handleRestartClick = (e: React.MouseEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (window.confirm("¿Estás seguro de que quieres reiniciar? Se perderá el progreso actual.")) {
         resetState();
     }
@@ -167,7 +166,7 @@ const App: React.FC = () => {
     const questionsToRetry = activeQuestions.filter(q => {
       const isSkipped = answers[q.id] === undefined;
       const isIncorrect = answers[q.id] !== undefined && answers[q.id] !== q.correctAnswerIndex;
-      
+
       if (mode === 'skipped') return isSkipped;
       if (mode === 'incorrect') return isIncorrect;
       return false;
@@ -182,7 +181,7 @@ const App: React.FC = () => {
     setAnswers({});
     setCurrentQuestionIndex(0);
     setIsFinished(false);
-    setElapsedTime(0); // Reset timer for retry attempt
+    setElapsedTime(0);
     setIsPaused(false);
     window.scrollTo(0, 0);
   };
@@ -193,9 +192,15 @@ const App: React.FC = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (!hasLoaded) return <div className="min-h-screen flex items-center justify-center text-slate-400">Cargando...</div>;
+  if (!hasLoaded) return (
+    <div className="min-h-screen flex items-center justify-center bg-paper text-muted">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-2 border-terracotta border-t-transparent rounded-full animate-spin" />
+        <span className="text-sm">Cargando...</span>
+      </div>
+    </div>
+  );
 
-  // Show Welcome Screen if no user name
   if (!userName) {
     return <WelcomeScreen onStart={handleStart} />;
   }
@@ -208,23 +213,27 @@ const App: React.FC = () => {
   const isLastQuestion = currentQuestionIndex === activeQuestions.length - 1;
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+    <div className="min-h-screen flex flex-col bg-paper text-ink relative">
+      {/* Subtle texture overlay */}
+      <div className="fixed inset-0 paper-texture pointer-events-none" />
+
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+      <header className="bg-paper/95 backdrop-blur-sm border-b border-ink/10 sticky top-0 z-30">
+        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white flex-shrink-0">
-              <BookOpen size={18} />
+            <div className="w-8 h-8 bg-terracotta rounded-md flex items-center justify-center text-white flex-shrink-0">
+              <BookOpen size={16} strokeWidth={2.5} />
             </div>
-            
+
             <div className="flex flex-col sm:flex-row sm:items-center">
-              <h1 className="font-bold text-lg hidden sm:block mr-2">Oposiciones Archivo</h1>
-              <div className="flex items-center gap-1 sm:gap-2 px-2 py-0.5 sm:px-3 sm:py-1 bg-slate-100 rounded-full text-xs font-medium text-slate-600">
-                <User size={12} /> <span className="max-w-[80px] sm:max-w-auto truncate">{userName}</span>
+              <h1 className="font-display text-lg hidden sm:block mr-3 text-ink">Archivo</h1>
+              <div className="flex items-center gap-1.5 px-2 py-0.5 bg-cream rounded-md text-xs font-medium text-muted">
+                <User size={11} />
+                <span className="max-w-[70px] sm:max-w-none truncate">{userName}</span>
                 {!isFinished && (
-                  <button 
+                  <button
                     onClick={handleChangeUser}
-                    className="ml-1 text-slate-400 hover:text-indigo-600 px-1"
+                    className="ml-0.5 text-muted/60 hover:text-terracotta transition-colors"
                     title="Cambiar usuario"
                   >
                     ×
@@ -233,133 +242,135 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
-          
-          {!isFinished && (
-            <div className="flex items-center gap-3 sm:gap-4">
-               {/* Timer & Pause Control */}
-               <div className="flex items-center gap-2 mr-1 sm:mr-4">
-                  <div className={`flex items-center gap-1.5 font-mono text-sm font-medium px-2 py-1 rounded-md ${isPaused ? 'bg-amber-50 text-amber-700' : 'bg-slate-50 text-slate-700'}`}>
-                    <Timer size={14} className={isPaused ? 'text-amber-500' : 'text-slate-400'} />
-                    {formatTime(elapsedTime)}
-                  </div>
-                  <button
-                    onClick={togglePause}
-                    className={`p-1.5 rounded-full transition-colors ${
-                      isPaused 
-                        ? 'bg-amber-100 text-amber-600 hover:bg-amber-200' 
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                    title={isPaused ? "Reanudar" : "Pausar"}
-                  >
-                    {isPaused ? <Play size={16} fill="currentColor" /> : <Pause size={16} fill="currentColor" />}
-                  </button>
-               </div>
 
-               {/* Progress Indicator - Visible on all screens */}
-               <div className="flex flex-col items-end">
-                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                   {currentQuestionIndex + 1} / {activeQuestions.length}
-                 </span>
-                 <div className="w-16 sm:w-24 h-1.5 bg-slate-100 rounded-full mt-1 overflow-hidden">
-                   <div 
-                    className="h-full bg-indigo-500 transition-all duration-300 ease-out"
+          {!isFinished && (
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* Timer & Pause */}
+              <div className="flex items-center gap-1.5">
+                <div className={`flex items-center gap-1 font-mono text-xs font-semibold px-2 py-1 rounded-md transition-colors ${
+                  isPaused ? 'bg-gold/10 text-gold' : 'bg-cream text-muted'
+                }`}>
+                  <Timer size={12} className={isPaused ? 'text-gold' : 'text-muted/60'} />
+                  {formatTime(elapsedTime)}
+                </div>
+                <button
+                  onClick={togglePause}
+                  className={`p-1.5 rounded-md transition-colors ${
+                    isPaused
+                      ? 'bg-gold/10 text-gold hover:bg-gold/20'
+                      : 'bg-cream text-muted hover:bg-ink/5'
+                  }`}
+                  title={isPaused ? "Reanudar" : "Pausar"}
+                >
+                  {isPaused ? <Play size={14} fill="currentColor" /> : <Pause size={14} fill="currentColor" />}
+                </button>
+              </div>
+
+              {/* Progress */}
+              <div className="flex flex-col items-end">
+                <span className="text-[10px] font-bold text-muted uppercase tracking-widest">
+                  {currentQuestionIndex + 1} / {activeQuestions.length}
+                </span>
+                <div className="w-12 sm:w-20 h-1 bg-ink/5 rounded-full mt-1 overflow-hidden">
+                  <div
+                    className="h-full bg-terracotta transition-all duration-500 ease-out rounded-full"
                     style={{ width: `${progress}%` }}
-                   />
-                 </div>
-               </div>
-               
-               <button
+                  />
+                </div>
+              </div>
+
+              {/* Restart */}
+              <button
                 type="button"
                 onClick={handleRestartClick}
-                className="flex items-center justify-center p-2 sm:gap-2 sm:px-3 sm:py-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all text-sm font-medium group active:bg-indigo-100"
-                title="Reiniciar examen desde el principio"
-               >
-                 <RotateCcw size={18} className="group-hover:rotate-180 transition-transform duration-500" />
-               </button>
+                className="p-2 text-muted hover:text-terracotta hover:bg-terracotta/5 rounded-md transition-colors"
+                title="Reiniciar examen"
+              >
+                <RotateCcw size={16} />
+              </button>
             </div>
           )}
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow flex flex-col items-center justify-center p-4 py-8 md:py-12 relative">
+      <main className="flex-grow flex flex-col items-center p-4 pt-6 pb-28 md:pb-8 md:pt-10 relative z-10">
         {isFinished ? (
-          <Summary 
-            questions={activeQuestions} 
-            answers={answers} 
+          <Summary
+            questions={activeQuestions}
+            answers={answers}
             history={quizHistory}
             onRestart={resetState}
             onRetry={handleRetry}
             duration={elapsedTime}
           />
         ) : isPaused ? (
-          <div className="w-full max-w-2xl flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm p-8 rounded-xl border border-dashed border-slate-300 min-h-[400px]">
-            <div className="w-20 h-20 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mb-6">
-              <Pause size={40} fill="currentColor" />
+          <div className="w-full max-w-xl flex flex-col items-center justify-center bg-cream/50 p-10 rounded-xl border border-ink/5 min-h-[350px]">
+            <div className="w-16 h-16 bg-gold/10 text-gold rounded-full flex items-center justify-center mb-5">
+              <Pause size={28} fill="currentColor" />
             </div>
-            <h2 className="text-2xl font-bold text-slate-700 mb-2">Examen Pausado</h2>
-            <p className="text-slate-500 mb-8 text-center max-w-md">
-              El tiempo se ha detenido. El contenido de la pregunta está oculto hasta que reanudes el examen.
+            <h2 className="font-display text-2xl text-ink mb-2">Examen Pausado</h2>
+            <p className="text-muted text-sm mb-8 text-center max-w-sm">
+              El tiempo se ha detenido. La pregunta permanecerá oculta hasta que continúes.
             </p>
-            <button 
+            <button
               onClick={togglePause}
-              className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow-lg shadow-indigo-200 transition-all flex items-center gap-2"
+              className="px-6 py-3 bg-terracotta hover:bg-terracotta-light text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
             >
-              <Play size={20} fill="currentColor" /> Reanudar Examen
+              <Play size={18} fill="currentColor" /> Continuar
             </button>
           </div>
         ) : (
           <div className="w-full flex flex-col items-center">
-            <QuizCard 
+            <QuizCard
               key={currentQuestion.id}
               question={currentQuestion}
               selectedOptionIndex={answers[currentQuestion.id]}
               onSelectOption={handleSelectOption}
             />
-            
-            {/* Mobile-friendly Sticky Bottom Action or Inline */}
-            <div className="fixed bottom-0 left-0 w-full p-4 bg-white border-t border-slate-200 md:static md:bg-transparent md:border-0 md:p-0 md:w-auto md:mt-8 z-20">
-               <div className="max-w-2xl mx-auto md:w-[28rem] flex gap-3">
-                {/* Skip Button - Only shown if not answered yet */}
-                {!isCurrentAnswered && (
-                  <button
-                    onClick={handleSkip}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-white border-2 border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 rounded-lg font-semibold text-lg transition-all active:scale-95"
-                  >
-                    Saltar <SkipForward size={20} />
-                  </button>
-                )}
-                
-                {/* Next Button */}
-                <button
-                  onClick={handleNext}
-                  disabled={!isCurrentAnswered}
-                  className={`flex-[2] flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg shadow-lg transition-all transform active:scale-95 ${
-                    isCurrentAnswered 
-                      ? 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/25 cursor-pointer' 
-                      : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                  }`}
-                >
-                  {isLastQuestion ? (
-                    <>Ver Resultados <BarChart3 size={20} /></>
-                  ) : (
-                    <>Siguiente <ChevronRight size={20} /></>
-                  )}
-                </button>
-               </div>
-            </div>
-            
-            {/* Spacer for mobile bottom bar */}
-            <div className="h-20 md:hidden"></div>
           </div>
         )}
       </main>
 
-      {/* Footer */}
+      {/* Fixed Bottom Actions - Mobile optimized */}
+      {!isFinished && !isPaused && (
+        <div className="fixed bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-sm border-t border-ink/10 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] z-20 md:static md:bg-transparent md:border-0 md:p-0 md:pb-8">
+          <div className="max-w-xl mx-auto flex gap-2">
+            {/* Skip Button */}
+            {!isCurrentAnswered && (
+              <button
+                onClick={handleSkip}
+                className="flex-1 flex items-center justify-center gap-2 py-3.5 px-4 bg-cream border border-ink/10 text-muted hover:text-ink hover:border-ink/20 rounded-lg font-semibold text-base transition-colors select-none"
+              >
+                Saltar <SkipForward size={18} />
+              </button>
+            )}
+
+            {/* Next Button */}
+            <button
+              onClick={handleNext}
+              disabled={!isCurrentAnswered}
+              className={`flex-[2] flex items-center justify-center gap-2 py-3.5 px-4 rounded-lg font-semibold text-base transition-colors select-none ${
+                isCurrentAnswered
+                  ? 'bg-terracotta text-white hover:bg-terracotta-light'
+                  : 'bg-ink/5 text-ink/30 cursor-not-allowed'
+              }`}
+            >
+              {isLastQuestion ? (
+                <>Ver Resultados <BarChart3 size={18} /></>
+              ) : (
+                <>Siguiente <ChevronRight size={18} /></>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Footer - Desktop only */}
       {!isFinished && (
-         <footer className="text-center py-6 text-slate-400 text-sm hidden md:block">
-           <p>Estudio de Oposiciones &bull; Archivo y Documentación</p>
-         </footer>
+        <footer className="text-center py-4 text-muted/50 text-xs hidden md:block">
+          <p>Preparación Oposiciones · Archivo y Documentación</p>
+        </footer>
       )}
     </div>
   );
